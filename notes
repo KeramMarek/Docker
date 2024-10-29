@@ -11,17 +11,21 @@ docker container run --rm hello-world -> simple test container if docker works.
 docker container run
 -it -> interactive terminal.
 -d -> run in background.
--v {volume name}:/{container name} /{path in image} -> links volume to the image.
--v {host path}:/{container name} /{path in image} -> bind host path to the image.
+-v {volume name}:/{image path} -> links volume to the image.
+-v {host path}:/{image path} -> bind host path to the image.
 -m -> limits memory used by docker container.
 --rm {container name} -> remove after stop.
 --name {container name} -> name container.
+--user userID:groupID -> run container with local user privileges.
 --restart always -> restart always when stopped.
 --restart on-failure:INTEGER -> restart on failure INTEGER times.
 --restart unless-stopped -> restart always unless stopped by user.
+--network {network name} -> set the type of network.
 --env VARIABLE=VALUE -> set variable.
 --env-file {.env file name} -> set variables from file.
 --publish {host port}:{container port}  -> publish on specifed ports.
+--memory 100M -> limits memory to 100M.
+--cpus 2 -> limits cpus.
 
 ---- DOCKER CONTAINER MANIPULATION
 
@@ -40,7 +44,7 @@ docker container exec -it {container name} command -> execute command in contain
 docker container logs {container name} -> show logs of container.
 docker container logs --follow {container name} -> show live logs of container.
 
-docker container inspect {container name} | jq --raw-output .[0].NetworkSettings.Networks.bridge.
+docker container inspect {container name} | jq --raw-output .[0].NetworkSettings.IPAddress.
 docker container inspect {container name} | jq --raw-output .[0] -> you can always start like that to see whole output, after that you can specifty what you want. As .NetworkSettings and .Networks. and even further .bridge.
 
 .[0] - needs to be always there 
@@ -75,7 +79,8 @@ docker image ls -> show all images.
 docker image pull {image name} -> pull image.
 docker image rm {image name} -> remove image.
 docker image inspect {image name} -> inspect image.
-docker image build –tag {image name} . -> build image from current location, need Dockerfile
+docker image build --tag {image name} . -> build image from current location, need Dockerfile
+docker image history {image name} -> here you can see all layers of image.
 
 ---- DOCKERFILE
 
@@ -98,9 +103,10 @@ SEE TEMPLATE.
 
 docker context ls -> shows all context, used is marked with *.
 docker context inspect {context name} -> shows information about context.
-docker context create -> create new context.
- --description "{description}" -> description of context.
- --docker "host=ssh://{remote user}@{remote host} " {context name} -> docker endpoint
+docker context create {context name} \ -> create new context.
+ --description "{description}" \ -> description of context.
+ --docker "host=ssh://{remote user}@{remote host}" -> docker endpoint.
+docker context use {context name} -> switch to desired context.
 
 docker context use {context name} -> switch to context.
 ssh-copy-id -i ~/.ssh/id_rsa {user}@{remote host}  -> copy key to remote host
