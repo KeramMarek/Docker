@@ -1,6 +1,7 @@
 # Check on enviroment files.
 # Create dir for composing.
 
+```
 version: '3.8'
 
 services:
@@ -35,3 +36,4 @@ volumes:
 networks:
   custom_network:
     driver: bridge
+```
