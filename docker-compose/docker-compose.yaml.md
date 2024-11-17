@@ -1,5 +1,5 @@
-# Check on enviroment files.
-# Create dir for composing.
+! Check on enviroment files.
+! Create dir for composing.
 
 ```
 version: '3.8'
