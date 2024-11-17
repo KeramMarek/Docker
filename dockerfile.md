@@ -1,3 +1,4 @@
+```
 # Stage 1: Build the Python application
 FROM python:3.9-slim AS builder
 # Set environment variables
@@ -43,3 +44,4 @@ Flask==2.0.3
 gunicorn==20.1.0
 requests==2.26.0
 psycopg2==2.9.3
+```
