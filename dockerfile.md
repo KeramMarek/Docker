@@ -28,7 +28,6 @@ WORKDIR /app
 COPY --from=builder /usr/local/lib/python3.9/site-packages /usr/local/lib/python3.9/site-packages
 COPY --from=builder /usr/local/bin /usr/local/bin
 COPY --from=builder /app /app
-
 # Change ownership to the appuser
 RUN chown -R appuser:appuser /app
 # Switch to the appuser
@@ -36,8 +35,7 @@ USER appuser
 # Expose the application port
 EXPOSE 8000
 # Run the application
-CMD ["python", "app.py"].dockerignore -> create this file within Dockerfile directory, it ignores files for command COPY . . 
-
+CMD ["python", "app.py"]
 # Before building create requriements.txt
 vi requriements.txt
 Flask==2.0.3
