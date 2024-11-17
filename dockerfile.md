@@ -15,6 +15,7 @@ RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 # Copy the application source code
 COPY . .
+.dockerignore -> create this file within Dockerfile directory, it ignores files for command COPY . . 
 # Stage 2: Create the final runtime image
 FROM python:3.9-slim
 # Set environment variables for production
