@@ -149,13 +149,79 @@ Key Dockerfile instructions:
 - **USER**: Specifies the user to execute commands as.
 - **WORKDIR**: Sets the working directory for commands like `RUN`, `CMD`, `ENTRYPOINT`, `COPY`, and `ADD`.
 
+### Dockerfile Example
+
+#### Multistage Build Example
+```dockerfile
+# Stage 1: Build the Python application
+FROM python:3.9-slim AS builder
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Create a working directory
+WORKDIR /app
+
+# Install build dependencies
+RUN apt-get update &&     apt-get install -y --no-install-recommends gcc libpq-dev
+
+# Install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip &&     pip install --no-cache-dir -r requirements.txt
+
+# Copy the application source code
+COPY . .
+
+# Stage 2: Create the final runtime image
+FROM python:3.9-slim
+
+# Set environment variables for production
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Create a user to run the application
+RUN adduser --disabled-password appuser
+
+# Set working directory
+WORKDIR /app
+
+# Copy only necessary files from the builder stage
+COPY --from=builder /usr/local/lib/python3.9/site-packages /usr/local/lib/python3.9/site-packages
+COPY --from=builder /usr/local/bin /usr/local/bin
+COPY --from=builder /app /app
+
+# Change ownership to the appuser
+RUN chown -R appuser:appuser /app
+
+# Switch to the appuser
+USER appuser
+
+# Expose the application port
+EXPOSE 8000
+
+# Run the application
+CMD ["python", "app.py"]
+```
+
+**Before building:** Create `requirements.txt`:
+```bash
+vi requirements.txt
+```
+```plaintext
+Flask==2.0.3
+gunicorn==20.1.0
+requests==2.26.0
+psycopg2==2.9.3
+```
+
 ---
 
 ## Docker Context
 
 Commands to manage Docker contexts:
 ```bash
-docker context ls                                        # List all contexts
+docker context ls                                         # List all contexts
 docker context inspect {context name}                    # Inspect context details
 docker context create {context name} \                   # Create a new context
     --description "{description}" \                      # Add a description
@@ -181,7 +247,61 @@ docker compose ls                 # List Docker Compose services
 ```
 
 ### Using Environment Files
-- **`.env`**: Default file for variables, automatically loaded by Docker Compose.
-- **Custom Variable Files**: Use `env_file` in your Docker Compose file to load variables from a different file.
+Check your environment files and directory structure before composing.
 
----
+#### Example Compose File
+```yaml
+version: '3.8'
+
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    env_file:
+      - .env.db  # Load environment variables from the .env.db file
+    networks:
+      - custom_network
+
+  wordpress:
+    depends_on:
+      - db
+    image: wordpress:latest
+    volumes:
+      - wordpress_data:/var/www/html
+    ports:
+      - "${WORDPRESS_PORT}:80"  # Port mapping from .env.wordpress file
+    restart: always
+    env_file:
+      - .env.wordpress  # Load environment variables from the .env.wordpress file
+    networks:
+      - custom_network
+
+volumes:
+  db_data:
+  wordpress_data:
+
+networks:
+  custom_network:
+    driver: bridge
+```
+
+#### Environment Files
+
+**.env.wordpress**
+```plaintext
+WORDPRESS_DB_HOST=db:3306
+WORDPRESS_DB_USER=wp_user
+WORDPRESS_DB_PASSWORD=wp_password
+WORDPRESS_DB_NAME=wordpress_db
+WORDPRESS_PORT=8000
+```
+
+**.env.db**
+```plaintext
+MYSQL_ROOT_PASSWORD=example_root_password
+MYSQL_DATABASE=wordpress_db
+MYSQL_USER=wp_user
+MYSQL_PASSWORD=wp_password
+```
