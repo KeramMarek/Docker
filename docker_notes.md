@@ -80,6 +80,10 @@ docker container logs --follow {container name}    # Show live container logs
 docker container inspect {container name} | jq --raw-output .[0].NetworkSettings.IPAddress    # Start inspection to view .NetworkSettings.IPAddress
 docker container inspect {container name} | jq --raw-output .[0]                              # Start inspection to view full output
 
+.[0] - needs to be always there 
+     - the first dot represent the object being proccesed so docker inspect
+     - the [0] represents the first element of array, since docker inspect return array
+
 docker container stats                              # Show live container stats
 ```
 
