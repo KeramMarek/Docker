@@ -305,3 +305,136 @@ MYSQL_DATABASE=wordpress_db
 MYSQL_USER=wp_user
 MYSQL_PASSWORD=wp_password
 ```
+
+---
+
+## Comprehensive Docker Compose Example
+
+Here’s an example `docker-compose.yml` that showcases most of the options you can use in a Compose file.
+
+```yaml
+version: '3.8'
+
+services:
+  app:
+    image: my-app:latest
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+      args:
+        - APP_ENV=production   # Build arguments
+    container_name: my_app_container
+    restart: unless-stopped
+    environment:
+      - ENV_VAR1=value1        # Inline environment variable
+    env_file:
+      - app.env               # Load environment variables from file
+    ports:
+      - "8080:80"             # Map host port 8080 to container port 80
+    volumes:
+      - ./app_data:/data       # Mount a host directory
+      - app_logs:/var/logs     # Named volume
+    networks:
+      - app_network
+    depends_on:
+      - db
+    command: ["npm", "start"]
+    deploy:
+      replicas: 3              # Use in Swarm mode for service replication
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "512M"
+        reservations:
+          cpus: "0.25"
+          memory: "256M"
+    logging:
+      driver: json-file        # Logging options
+      options:
+        max-size: "10m"
+        max-file: "3"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost/ || exit 1"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  db:
+    image: postgres:latest
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+  cache:
+    image: redis:latest
+    container_name: redis_cache
+    restart: on-failure:5
+    ports:
+      - "6379:6379"
+    networks:
+      - app_network
+
+volumes:
+  app_logs:                     # Named volume for app logs
+  db_data:                      # Named volume for database
+
+networks:
+  app_network:                  # User-defined network
+    driver: bridge
+```
+
+### Explanation of Options
+
+- **`services`**:
+  - Defines the containers to be deployed.
+  - Each service can have its own configurations like `image`, `build`, `environment`, and more.
+
+- **`build`**:
+  - Specifies build options for creating images from Dockerfiles.
+  - Example:
+    - `context`: The directory where the Dockerfile resides.
+    - `dockerfile`: Path to the Dockerfile.
+    - `args`: Build-time arguments.
+
+- **`container_name`**:
+  - Custom name for the container.
+
+- **`restart`**:
+  - Policies for restarting containers:
+    - `no`: Never restart.
+    - `always`: Always restart.
+    - `on-failure`: Restart only on failure.
+
+- **`environment`**:
+  - Inline or file-based environment variables.
+
+- **`ports`**:
+  - Maps host ports to container ports.
+
+- **`volumes`**:
+  - Mount host directories or named volumes inside containers.
+
+- **`networks`**:
+  - Define custom Docker networks to allow communication between services.
+
+- **`depends_on`**:
+  - Specifies dependencies between services. Ensures a service starts only after its dependencies.
+
+- **`deploy`**:
+  - Used in Docker Swarm mode for scaling and resource reservations.
+
+- **`logging`**:
+  - Configures logging drivers and options.
+
+- **`healthcheck`**:
+  - Defines health checks for services to verify their availability.
+
+---
