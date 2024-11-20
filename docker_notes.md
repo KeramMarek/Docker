@@ -58,13 +58,13 @@ docker container run
 
 Commands to manipulate Docker containers:
 ```bash
-docker container ls                    # List running containers
-docker container ls -all               # List all containers, including stopped
-docker container create {container name}  # Create a container
-docker container stop {container name}   # Stop a container
-docker container start {container name}  # Start a container
-docker container attach {container name} # Attach to a running container
-docker container prune                  # Remove all non-running containers
+docker container ls                                   # List running containers
+docker container ls -all                              # List all containers, including stopped
+docker container create {container name}              # Create a container
+docker container stop {container name}                # Stop a container
+docker container start {container name}               # Start a container
+docker container attach {container name}              # Attach to a running container
+docker container prune                                # Remove all non-running containers
 docker container exec -it {container name} {command}  # Execute a command in a container
 ```
 
