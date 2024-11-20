@@ -19,7 +19,7 @@
 
 Steps to install Docker:
 ```bash
-sudo apt update                           # Update libraries
+sudo apt update                          # Update libraries
 sudo apt install docker.io               # Download and install Docker
 sudo usermod -aG docker $USER            # Allows running Docker without 'sudo' (restart required)
 docker --version                         # Check the installed version
@@ -33,23 +33,23 @@ docker container run --rm hello-world    # Simple test container to verify Docke
 Commands to run Docker containers:
 ```bash
 docker container run
--it                                # Interactive terminal
--d                                 # Run in background
--v {volume name}:/{image path}     # Links volume to the image
--v {host path}:/{image path}       # Bind host path to the image
--m                                 # Limits memory used by the container
---rm {container name}              # Remove after stop
---name {container name}            # Name the container
---user userID:groupID              # Run container with local user privileges
---restart always                   # Restart always when stopped
---restart on-failure:INTEGER       # Restart on failure INTEGER times
---restart unless-stopped           # Restart always unless stopped by the user
---network {network name}           # Set the type of network
---env VARIABLE=VALUE               # Set an environment variable
---env-file {.env file name}        # Set environment variables from a file
---publish {host port}:{container port}  # Publish on specific ports
---memory 100M                      # Limit memory to 100 MB
---cpus 2                           # Limit to 2 CPUs
+-it                                        # Interactive terminal
+-d                                         # Run in background
+-v {volume name}:/{image path}             # Links volume to the image
+-v {host path}:/{image path}               # Bind host path to the image
+-m                                         # Limits memory used by the container
+--rm {container name}                      # Remove after stop
+--name {container name}                    # Name the container
+--user userID:groupID                      # Run container with local user privileges
+--restart always                           # Restart always when stopped
+--restart on-failure:INTEGER               # Restart on failure INTEGER times
+--restart unless-stopped                   # Restart always unless stopped by the user
+--network {network name}                   # Set the type of network
+--env VARIABLE=VALUE                       # Set an environment variable
+--env-file {.env file name}                # Set environment variables from a file
+--publish {host port}:{container port}     # Publish on specific ports
+--memory 100M                              # Limit memory to 100 MB
+--cpus 2                                   # Limit to 2 CPUs
 ```
 
 ---
