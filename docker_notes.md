@@ -249,7 +249,7 @@ docker compose ls                 # List Docker Compose services
 ### Using Environment Files
 Check your environment files and directory structure before composing.
 
-#### Example Compose File
+#### Example Compose File -> docker-compose.yml
 ```yaml
 version: '3.8'
 
