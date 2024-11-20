@@ -81,8 +81,10 @@ docker container inspect {container name} | jq --raw-output .[0].NetworkSettings
 docker container inspect {container name} | jq --raw-output .[0]                              # Start inspection to view full output
 
 .[0] - needs to be always there 
-     - the first dot represent the object being proccesed so docker inspect
-     - the [0] represents the first element of array, since docker inspect return array
+     - the first dot represent the object being proccesed so docker inspect.
+     - the [0] represents the first element of array, cause docker inspect return array.
+
+Run full inspection with only .[0] and look which element you need and then use it like .[0].NetworkSettings.IPAddress .
 
 docker container stats                              # Show live container stats
 ```
