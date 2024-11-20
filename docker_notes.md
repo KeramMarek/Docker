@@ -127,7 +127,7 @@ docker image pull marvy936/{image name}                    # Pull an image from 
 docker image ls                                            # List all images
 docker image rm {image name}                               # Remove an image
 docker image inspect {image name}                          # Inspect image details
-docker image build --tag {image name} .                    # Build image from the current directory
+docker image build --tag {image name} .                    # Build image from the current directory - needs Dockerfile
 docker image history {image name}                          # View all layers of an image
 ```
 
