@@ -77,8 +77,8 @@ Commands to view container logs, inspect details, and monitor stats:
 docker container logs {container name}             # Show container logs
 docker container logs --follow {container name}    # Show live container logs
 
-docker container inspect {container name} | jq --raw-output .[0].NetworkSettings.IPAddress
-docker container inspect {container name} | jq --raw-output .[0]  # Start inspection to view full output
+docker container inspect {container name} | jq --raw-output .[0].NetworkSettings.IPAddress    # Start inspection to view .NetworkSettings.IPAddress
+docker container inspect {container name} | jq --raw-output .[0]                              # Start inspection to view full output
 
 docker container stats                              # Show live container stats
 ```
@@ -101,11 +101,11 @@ docker volume rm {volume name}       # Remove a volume
 
 Commands to manage Docker networks:
 ```bash
-docker network create                    # Create a new network
+docker network create                                      # Create a new network
 docker network disconnect {network name} {container name}  # Disconnect a container from a network
 docker network connect {network name} {container name}     # Connect a container to a network
-docker network rm {network name}         # Remove a network
-docker network prune                     # Remove unused networks
+docker network rm {network name}                           # Remove a network
+docker network prune                                       # Remove unused networks
 ```
 
 ---
@@ -114,15 +114,15 @@ docker network prune                     # Remove unused networks
 
 Commands to manage Docker images:
 ```bash
-docker login -u {user}                               # Log in to Docker Hub
+docker login -u {user}                                     # Log in to Docker Hub
 docker image tag {image name} marvy936/{image name}:{tag}  # Tag an image
-docker image push marvy936/{image name} --all-tags   # Push all image tags to Docker Hub
-docker image pull marvy936/{image name}             # Pull an image from Docker Hub
-docker image ls                                     # List all images
-docker image rm {image name}                        # Remove an image
-docker image inspect {image name}                   # Inspect image details
-docker image build --tag {image name} .             # Build image from the current directory
-docker image history {image name}                   # View all layers of an image
+docker image push marvy936/{image name} --all-tags         # Push all image tags to Docker Hub
+docker image pull marvy936/{image name}                    # Pull an image from Docker Hub
+docker image ls                                            # List all images
+docker image rm {image name}                               # Remove an image
+docker image inspect {image name}                          # Inspect image details
+docker image build --tag {image name} .                    # Build image from the current directory
+docker image history {image name}                          # View all layers of an image
 ```
 
 ---
@@ -149,7 +149,7 @@ Key Dockerfile instructions:
 
 Commands to manage Docker contexts:
 ```bash
-docker context ls                                         # List all contexts
+docker context ls                                        # List all contexts
 docker context inspect {context name}                    # Inspect context details
 docker context create {context name} \                   # Create a new context
     --description "{description}" \                      # Add a description
