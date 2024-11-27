@@ -51,6 +51,11 @@ docker container run
 --memory 100M                              # Limit memory to 100 MB
 --cpus 2                                   # Limit to 2 CPUs
 date                                       # You can run commands in docker container [docker container run {image} {command}]
+
+```
+Variables in container:
+```bash
+docker container inspect weather | jq ".[0].Config.Env"
 ```
 
 ---
