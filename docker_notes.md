@@ -280,8 +280,6 @@ Check your environment files and directory structure before composing.
 
 #### Example Compose File -> docker-compose.yml
 ```yaml
-version: '3.8'
-
 services:
   db:
     image: mysql:5.7
@@ -289,9 +287,9 @@ services:
       - db_data:/var/lib/mysql
     restart: always
     env_file:
-      - .env.db  # Load environment variables from the .env.db file
+      - .env.db 
     networks:
-      - custom_network
+      - my_network
 
   wordpress:
     depends_on:
@@ -300,20 +298,29 @@ services:
     volumes:
       - wordpress_data:/var/www/html
     ports:
-      - "${WORDPRESS_PORT}:80"  # Port mapping from .env.wordpress file
+      - 80:80
     restart: always
     env_file:
-      - .env.wordpress  # Load environment variables from the .env.wordpress file
+      - .env.wordpress
     networks:
-      - custom_network
+      - my_network
+
+  adminer:
+    depends_on:
+      - db
+      - wordpress
+    image: adminer
+    ports:
+      - 8080:8080
+    networks:
+      - my_network
 
 volumes:
   db_data:
   wordpress_data:
 
 networks:
-  custom_network:
-    driver: bridge
+  my_network:
 ```
 
 #### Environment Files
