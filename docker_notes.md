@@ -55,7 +55,7 @@ date                                       # You can run commands in docker cont
 ```
 Variables in container:
 ```bash
-docker container inspect weather | jq ".[0].Config.Env"
+docker container inspect {container_name} | jq ".[0].Config.Env"
 ```
 
 ---
