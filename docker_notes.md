@@ -162,6 +162,10 @@ Key Dockerfile instructions:
 # Stage 1: Build the Python application
 FROM python:3.9-slim AS builder
 
+# Set meta data
+LABEL maintainer="martin martin.vyhonsky@gmail.com"
+LABEL description="Matrix screen saver in console"
+
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
