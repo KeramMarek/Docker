@@ -50,6 +50,7 @@ docker container run
 --publish {host port}:{container port}     # Publish on specific ports
 --memory 100M                              # Limit memory to 100 MB
 --cpus 2                                   # Limit to 2 CPUs
+date                                       # You can run commands in docker container docker container run {image} {command}
 ```
 
 ---
