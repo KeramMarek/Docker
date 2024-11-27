@@ -225,6 +225,25 @@ requests==2.26.0
 psycopg2==2.9.3
 ```
 
+Healthcheck.
+
+```bash
+FROM python:3.10-slim
+ADD app.tgz /
+RUN apt update \
+&& apt install -y curl \
+&& pip3 install uvicorn fastapi wheel jinja2 python-multipart
+RUN adduser --no-create-home --disabled-password --gecos AppUser
+appuser
+EXPOSE 5000
+WORKDIR /app
+VOLUME [ "/app/data" ]
+USER appuser
+HEALTHCHECK --interval=1m --timeout=3s \
+CMD curl -f http://localhost:5000/ || exit 1
+CMD [ "/usr/bin/env", "python3", "/app/dashboard.py" ]
+```
+
 ---
 
 ## Docker Context
