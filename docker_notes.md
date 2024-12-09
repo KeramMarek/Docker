@@ -12,6 +12,9 @@
 8. [Dockerfile](#dockerfile)
 9. [Docker Context](#docker-context)
 10. [Docker Compose](#docker-compose)
+11. [Dokcerfile to install Kubectl and Terraform example.](#dokcerfile-to-install-kubectl-and-terraform-example)
+
+
 
 ---
 
@@ -475,7 +478,7 @@ networks:
 
 ---
 
-Dokcerfile to install Kubectl and Terraform example.
+# Dokcerfile to install Kubectl and Terraform example.
 
 FROM alpine:3.16
 
