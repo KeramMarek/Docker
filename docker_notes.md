@@ -479,7 +479,7 @@ networks:
 ---
 
 # Dokcerfile to install Kubectl and Terraform example.
-
+```Dockerfile
 FROM alpine:3.16
 
 LABEL org.opencontainers.image.authors="martin.vyhonsky"
@@ -503,4 +503,4 @@ RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform
 RUN curl -LO https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl \
     && install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl \
     && rm kubectl
-
+```
