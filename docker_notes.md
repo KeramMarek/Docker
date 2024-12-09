@@ -474,3 +474,30 @@ networks:
   - Defines health checks for services to verify their availability.
 
 ---
+
+Dokcerfile to install Kubectl and Terraform example.
+
+FROM alpine:3.16
+
+LABEL org.opencontainers.image.authors="martin.vyhonsky"
+
+ENV TERRAFORM_VERSION=1.10.1
+ENV KUBECTL_VERSION=v1.27.1
+
+RUN apk add --no-cache \
+    openssh-client \
+    ca-certificates \
+    bash \
+    wget \
+    curl \
+    unzip
+
+RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip -O terraform.zip \
+    && unzip terraform.zip -d /usr/local/bin \
+    && chmod +x /usr/local/bin/terraform \
+    && rm terraform.zip
+
+RUN curl -LO https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl \
+    && install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl \
+    && rm kubectl
+
