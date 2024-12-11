@@ -504,3 +504,15 @@ RUN curl -LO https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubect
     && install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl \
     && rm kubectl
 ```
+
+Dockerfile example with Listner port change.
+
+```Dockerfile
+FROM alpine:latest
+RUN apk add --no-cache apache2 
+COPY /src/index.html /var/www/localhost/htdocs/index.html
+EXPOSE 8080
+RUN sed -i 's/Listen 80/Listen 8080/g' /etc/apache2/httpd.conf
+CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
+```
+Don't forget when running container to -d -p 8080:8080 
