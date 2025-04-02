@@ -478,7 +478,8 @@ networks:
 
 ---
 # Dockerfile to install apache change port with alpine:
-```baFROM alpine:latest
+```bash
+FROM alpine:latest
 
 RUN  apk update && apk add --no-cache apache2
 
