@@ -477,6 +477,24 @@ networks:
   - Defines health checks for services to verify their availability.
 
 ---
+# Dockerfile to install apache change port with alpine:
+```baFROM alpine:latest
+
+RUN  apk update && apk add --no-cache apache2
+
+VOLUME [ "/data" ]
+
+
+RUN echo "ServerName localhost" >> /etc/apache2/httpd.conf
+RUN sed -i 's/Listen 80/Listen 8080/' /etc/apache2/httpd.conf
+
+COPY index.html /var/www/localhost/htdocs/index.html
+
+EXPOSE 8080
+
+CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
+```
+
 
 # Dokcerfile to install Kubectl and Terraform example.
 ```Dockerfile
