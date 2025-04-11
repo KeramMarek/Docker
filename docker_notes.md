@@ -552,3 +552,21 @@ EXPOSE 9090
 
 CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
 ```
+# Dockerfile Nginx:
+```bash
+FROM nginx:latest
+
+# Ensure the necessary directory exists for Nginx runtime
+RUN mkdir -p /run/nginx
+
+# Modify the default.conf to listen on port 8080
+RUN sed -i 's/listen\s\+80;/listen 8080;/' /etc/nginx/conf.d/default.conf    # if alpine it can be /etc/nginx/nginx.conf or /etc/nginx/conf.d/default.conf
+# Copy your HTML file into Nginx's web root
+COPY index.html /usr/share/nginx/html/index.html
+
+# Expose the port
+EXPOSE 8080
+
+# Run Nginx in the foreground
+CMD ["nginx", "-g", "daemon off;"]
+```
