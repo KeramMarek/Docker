@@ -535,3 +535,20 @@ RUN sed -i 's/Listen 80/Listen 8080/g' /etc/apache2/httpd.conf
 CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
 ```
 Don't forget when running container to -d -p 8080:8080 
+# Docker file with apache2:
+```yaml
+FROM alpine:latest
+
+RUN apk update && apk add --no-cache apache2 && \
+    echo "ServerName localhost" >> /etc/apache2/httpd.conf && \
+    sed -i 's/Listen 80/Listen 9090/' /etc/apache2/httpd.conf && \
+    mkdir -p /run/apache2
+
+VOLUME [ "/data" ]
+
+COPY index.html /var/www/localhost/htdocs/index.html
+
+EXPOSE 9090
+
+CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
+```
