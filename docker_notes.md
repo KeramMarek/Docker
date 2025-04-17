@@ -552,6 +552,14 @@ EXPOSE 9090
 
 CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
 ```
+# to check if apache is running inside the container:
+```bash
+ps aux | grep httpd                # Run this inside the container:
+curl http://localhost:8080         #  simulate a request to the Apache server:
+netstat -tuln | grep 8080          # To check if Apache is listening on the expected port:
+ss -tuln                           # if netstat is not installed
+
+```
 # Dockerfile Nginx:
 ```bash
 FROM nginx:latest
