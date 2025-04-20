@@ -578,3 +578,9 @@ EXPOSE 8080
 # Run Nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]
 ```
+# check if nginx is running inside the container:
+```bash
+docker exec -it <container_name_or_id> service nginx status
+docker exec -it <container_name_or_id> ps aux | grep nginx
+docker exec -it <container_name_or_id> nginx -t
+
