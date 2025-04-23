@@ -583,4 +583,20 @@ CMD ["nginx", "-g", "daemon off;"]
 docker exec -it <container_name_or_id> service nginx status
 docker exec -it <container_name_or_id> ps aux | grep nginx
 docker exec -it <container_name_or_id> nginx -t
+```
+# Docker file with curl and sed
+```yaml
+FROM alpine:latest
 
+RUN apk add --no-cache apache2 
+
+COPY /src/index.html /var/www/localhost/htdocs/index.html
+
+EXPOSE 8080
+
+RUN apk add --no-cache curl && \
+    sed -i 's/Listen 80/Listen 8080/g' /etc/apache2/httpd.conf
+
+
+CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
+```
