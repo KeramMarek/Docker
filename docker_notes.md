@@ -477,6 +477,12 @@ networks:
   - Defines health checks for services to verify their availability.
 
 ---
+ENTRYPOINT ["/usr/sbin/httpd", "-D", "FOREGROUND"]
+
+ENTRYPOINT ["/usr/sbin/httpd"]
+CMD ["-D", "FOREGROUND"]
+
+CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
 # Dockerfile to install apache change port with alpine:
 ```bash
 FROM alpine:latest
